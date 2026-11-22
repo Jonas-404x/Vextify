@@ -1,0 +1,47 @@
+<Page x:Class="Vextify.Views.StartPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:c="clr-namespace:Vextify.Controls"
+      TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+      Title="Start">
+    <!-- Top-aligned on purpose: opening Details only grows the page downward, nothing above it moves. -->
+    <!-- hosted by the navigation view -->
+        <StackPanel Margin="32,28,32,96" MaxWidth="560" HorizontalAlignment="Center" VerticalAlignment="Top">
+
+            <c:StatusOrb x:Name="Orb" HorizontalAlignment="Center" Margin="0,0,0,-8" />
+
+            <TextBlock x:Name="Headline" Style="{StaticResource VxTitle}" TextAlignment="Center" HorizontalAlignment="Center" />
+            <TextBlock x:Name="Subline" Style="{StaticResource VxBody}" TextAlignment="Center" HorizontalAlignment="Center"
+                       Margin="0,8,0,0" MaxWidth="460" />
+
+            <!-- one primary action per state -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,24,0,0">
+                <ui:Button x:Name="PrimaryButton" Appearance="Primary" MinWidth="200" Height="40" FontWeight="SemiBold"
+                           HorizontalContentAlignment="Center" Click="Primary_Click" />
+                <ui:Button x:Name="SecondaryButton" Height="40" Margin="8,0,0,0" Visibility="Collapsed" Click="Secondary_Click" />
+            </StackPanel>
+
+            <!-- quiet details: a plain toggle that opens instantly, no animated expander -->
+            <ui:Button x:Name="DetailsToggle" Appearance="Transparent" HorizontalAlignment="Center" Margin="0,28,0,0"
+                       Icon="{ui:SymbolIcon ChevronDown24}" Content="Details" Click="DetailsToggle_Click"
+                       AutomationProperties.Name="Details ein- oder ausblenden" />
+            <StackPanel x:Name="DetailsPanel" Visibility="Collapsed" Margin="0,8,0,0">
+                <Grid Margin="0,6">
+                    <ui:SymbolIcon Symbol="MusicNote224" HorizontalAlignment="Left" Opacity="0.7" />
+                    <TextBlock x:Name="SpotifyLine" Style="{StaticResource VxBody}" Margin="32,0,0,0" />
+                </Grid>
+                <Grid Margin="0,6">
+                    <ui:SymbolIcon Symbol="Settings24" HorizontalAlignment="Left" Opacity="0.7" />
+                    <TextBlock x:Name="EngineLine" Style="{StaticResource VxBody}" Margin="32,0,0,0" />
+                </Grid>
+                <Grid Margin="0,6">
+                    <ui:SymbolIcon Symbol="ShieldCheckmark24" HorizontalAlignment="Left" Opacity="0.7" />
+                    <TextBlock x:Name="AutoLine" Style="{StaticResource VxBody}" Margin="32,0,0,0" />
+                </Grid>
+                <TextBox x:Name="ErrorDetails" Visibility="Collapsed" IsReadOnly="True" TextWrapping="Wrap" MaxHeight="150"
+                         VerticalScrollBarVisibility="Auto" Margin="0,10,0,0" FontFamily="Consolas" FontSize="12" />
+            </StackPanel>
+        </StackPanel>
+    <!-- /hosted -->
+</Page>

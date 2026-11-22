@@ -1,0 +1,51 @@
+<UserControl x:Class="Vextify.Controls.StatusOrb"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             Width="280" Height="280" Focusable="False" IsTabStop="False">
+    <Grid>
+        <!-- soft glow behind the orb; breathes while active. A radial gradient instead of BlurEffect: WPF renders BlurEffect in software every frame. -->
+        <Ellipse x:Name="Glow" Width="270" Height="270" Opacity="0" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#99E01FD8" Offset="0.45" />
+                    <GradientStop Color="#556A1BFF" Offset="0.7" />
+                    <GradientStop Color="#006A1BFF" Offset="1" />
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+            <Ellipse.RenderTransform>
+                <ScaleTransform x:Name="GlowScale" ScaleX="1" ScaleY="1" />
+            </Ellipse.RenderTransform>
+        </Ellipse>
+
+        <!-- a slow ring that leaves the orb and fades out, like a pulse -->
+        <Ellipse x:Name="Ripple" Width="172" Height="172" Stroke="{StaticResource VxAccentTextBrush}" StrokeThickness="2"
+                 Opacity="0" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+            <Ellipse.RenderTransform>
+                <ScaleTransform x:Name="RippleScale" ScaleX="1" ScaleY="1" />
+            </Ellipse.RenderTransform>
+        </Ellipse>
+
+        <!-- the orb itself floats a few pixels up and down -->
+        <Grid x:Name="Body" Width="206" Height="206">
+            <Grid.RenderTransform>
+                <TranslateTransform x:Name="Float" Y="0" />
+            </Grid.RenderTransform>
+
+            <Ellipse x:Name="BaseDisc" Width="172" Height="172"
+                     Fill="{DynamicResource ControlFillColorSecondaryBrush}"
+                     Stroke="{DynamicResource ControlStrokeColorDefaultBrush}" StrokeThickness="1" />
+            <Ellipse x:Name="ActiveDisc" Width="172" Height="172" Fill="{StaticResource VxGradient}" Opacity="0" />
+            <Ellipse x:Name="ErrorDisc" Width="172" Height="172" Fill="{StaticResource VxDangerGradient}" Opacity="0" />
+
+            <ui:SymbolIcon x:Name="Glyph" Symbol="Power24" FontSize="64" Foreground="White" RenderTransformOrigin="0.5,0.5">
+                <ui:SymbolIcon.RenderTransform>
+                    <ScaleTransform x:Name="GlyphScale" ScaleX="1" ScaleY="1" />
+                </ui:SymbolIcon.RenderTransform>
+            </ui:SymbolIcon>
+
+            <ui:ProgressRing x:Name="Ring" Width="206" Height="206" IsIndeterminate="True" Visibility="Collapsed"
+                             Foreground="{StaticResource VxAccentTextBrush}" />
+        </Grid>
+    </Grid>
+</UserControl>

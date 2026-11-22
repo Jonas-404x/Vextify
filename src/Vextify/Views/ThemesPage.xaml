@@ -1,0 +1,29 @@
+<Page x:Class="Vextify.Views.ThemesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+      Title="Themes">
+    <!-- hosted by the navigation view -->
+    <StackPanel Margin="32,24,32,96" MaxWidth="860" HorizontalAlignment="Stretch">
+        <Grid Margin="0,0,0,16">
+            <TextBlock Text="Themes" Style="{StaticResource VxTitle}" VerticalAlignment="Center" />
+            <ui:Button HorizontalAlignment="Right" Icon="{ui:SymbolIcon Search24}" Content="Mehr Themes finden" Click="GoDiscover_Click" />
+        </Grid>
+
+        <StackPanel x:Name="EmptyState" Visibility="Collapsed" HorizontalAlignment="Center" Margin="0,80,0,0">
+            <ui:SymbolIcon Symbol="PaintBrush24" FontSize="40" Opacity="0.5" HorizontalAlignment="Center" />
+            <TextBlock Text="Noch keine Themes" Style="{StaticResource VxTitle}" FontSize="20" TextAlignment="Center" Margin="0,12,0,4" />
+            <TextBlock Style="{StaticResource VxBody}" TextAlignment="Center" MaxWidth="420"
+                       Text="Unter „Entdecken“ findest du Themes mit Vorschau. Du kannst auch eigene ins Fenster ziehen." />
+            <ui:Button Appearance="Primary" Content="Themes entdecken" HorizontalAlignment="Center" Margin="0,16,0,0" Click="GoDiscover_Click" />
+        </StackPanel>
+
+        <WrapPanel x:Name="Tiles" />
+
+        <StackPanel x:Name="SchemeSection" Visibility="Collapsed" Margin="0,24,0,0">
+            <TextBlock Text="Farbschema" Style="{StaticResource VxHeadline}" Margin="4,0,0,8" />
+            <WrapPanel x:Name="Schemes" />
+        </StackPanel>
+    </StackPanel>
+</Page>

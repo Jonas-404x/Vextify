@@ -1,0 +1,62 @@
+﻿<Application x:Class="Vextify.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemesDictionary Theme="Dark" />
+                <ui:ControlsDictionary />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--
+                Brand tokens. Everything else (surfaces, text, separators) comes from the system theme dictionaries
+                so the app stays semantic and can follow light/dark later.
+                Accent text #D58CFF reads at about 7:1 on the dark card surface; white on the logo gradient's pink end is about 3.6:1 (graphics only).
+            -->
+            <Color x:Key="VxAccentColor">#9B1FE8</Color>
+            <SolidColorBrush x:Key="VxAccentTextBrush" Color="#D58CFF" />
+
+            <!-- The logo's own gradient: used only for the status orb, the drop overlay and the selected state. -->
+            <LinearGradientBrush x:Key="VxGradient" StartPoint="0.15,0" EndPoint="0.85,1">
+                <GradientStop Color="#FF1FC8" Offset="0" />
+                <GradientStop Color="#C312FF" Offset="0.55" />
+                <GradientStop Color="#6A1BFF" Offset="1" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="VxDangerGradient" StartPoint="0.15,0" EndPoint="0.85,1">
+                <GradientStop Color="#E5484D" Offset="0" />
+                <GradientStop Color="#A4262C" Offset="1" />
+            </LinearGradientBrush>
+
+            <FontFamily x:Key="VxDisplayFont">Segoe UI Variable Display, Segoe UI</FontFamily>
+
+            <!-- Type scale (device-independent px). Body 14, caption 12 = never below the 12 px floor. -->
+            <Style x:Key="VxTitle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="{StaticResource VxDisplayFont}" />
+                <Setter Property="FontSize" Value="28" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+            </Style>
+            <Style x:Key="VxHeadline" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+            <!-- Mod / theme names in lists: heavier than body text (14) but clearly below the 28 px page title. -->
+            <Style x:Key="VxRowTitle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="{StaticResource VxDisplayFont}" />
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+            <Style x:Key="VxBody" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+            </Style>
+            <Style x:Key="VxCaption" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

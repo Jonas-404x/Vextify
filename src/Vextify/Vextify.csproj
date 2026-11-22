@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>Vextify</AssemblyName>
+    <RootNamespace>Vextify</RootNamespace>
+    <ApplicationIcon>Assets\Vextify.ico</ApplicationIcon>
+    <Version>0.1.0</Version>
+    <SatelliteResourceLanguages>de;en</SatelliteResourceLanguages>
+    <!-- Low footprint: no background GC thread, workstation GC.
+         (Not InvariantGlobalization: WPF bindings need real cultures and crash without them.) -->
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
+    <ServerGarbageCollector>false</ServerGarbageCollector>
+    <TieredPGO>false</TieredPGO>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WPF-UI" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- WinForms is only used for the tray icon; keep its types out of the implicit usings to avoid clashes with WPF -->
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+    <Using Include="System.IO" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\logo.png" />
+    <Resource Include="Assets\Vextify.ico" />
+  </ItemGroup>
+
+</Project>

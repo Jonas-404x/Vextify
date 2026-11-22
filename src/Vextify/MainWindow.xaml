@@ -1,0 +1,137 @@
+﻿<ui:FluentWindow x:Class="Vextify.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 xmlns:views="clr-namespace:Vextify.Views"
+                 Title="Vextify" Width="1000" Height="700" MinWidth="820" MinHeight="560"
+                 WindowStartupLocation="CenterScreen"
+                 ExtendsContentIntoTitleBar="True"
+                 WindowBackdropType="Mica"
+                 WindowCornerPreference="Round">
+    <Grid AllowDrop="True" DragEnter="Root_DragOver" DragOver="Root_DragOver" Drop="Root_Drop">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- 32 px high so the logo and title sit on the same line as the Windows caption buttons -->
+        <ui:TitleBar x:Name="TitleBar" Grid.Row="0" Height="32" Title="Vextify" ShowMaximize="True">
+            <ui:TitleBar.Icon>
+                <ui:ImageIcon Source="pack://application:,,,/Assets/logo.png" />
+            </ui:TitleBar.Icon>
+        </ui:TitleBar>
+
+        <ui:NavigationView x:Name="Nav" Grid.Row="1"
+                           PaneDisplayMode="Left"
+                           IsBackButtonVisible="Collapsed"
+                           IsPaneToggleVisible="False"
+                           OpenPaneLength="200">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem Content="Start" Icon="{ui:SymbolIcon Home24}" TargetPageType="{x:Type views:StartPage}" ToolTip="Strg+1" />
+                <ui:NavigationViewItem Content="Mods" Icon="{ui:SymbolIcon PuzzlePiece24}" TargetPageType="{x:Type views:ModsPage}" ToolTip="Strg+2" />
+                <ui:NavigationViewItem Content="Themes" Icon="{ui:SymbolIcon PaintBrush24}" TargetPageType="{x:Type views:ThemesPage}" ToolTip="Strg+3" />
+                <ui:NavigationViewItem Content="Entdecken" Icon="{ui:SymbolIcon Search24}" TargetPageType="{x:Type views:DiscoverPage}" ToolTip="Strg+4" />
+            </ui:NavigationView.MenuItems>
+
+            <!-- compact status at the bottom of the sidebar: fills the empty space with something that is always true and useful -->
+            <ui:NavigationView.PaneFooter>
+                <Border Margin="10,0,10,6" Padding="12,10" CornerRadius="10"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse x:Name="SideDot" Width="9" Height="9" Fill="Gray" VerticalAlignment="Center" />
+                            <TextBlock x:Name="SideTitle" FontWeight="SemiBold" FontSize="13" Margin="8,0,0,0" />
+                        </StackPanel>
+                        <TextBlock x:Name="SideSub" Style="{StaticResource VxCaption}" Margin="17,2,0,8" />
+                        <ui:Button x:Name="SideButton" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                   Content="Spotify öffnen" Click="SideButton_Click" />
+                    </StackPanel>
+                </Border>
+            </ui:NavigationView.PaneFooter>
+
+            <ui:NavigationView.FooterMenuItems>
+                <ui:NavigationViewItem x:Name="RestartItem" Content="Spotify neu starten" Icon="{ui:SymbolIcon ArrowClockwise24}" Click="RestartSpotify_Click" />
+                <ui:NavigationViewItem Content="Einstellungen" Icon="{ui:SymbolIcon Settings24}" TargetPageType="{x:Type views:SettingsPage}" ToolTip="Strg+," />
+            </ui:NavigationView.FooterMenuItems>
+        </ui:NavigationView>
+
+        <!-- Drop anywhere: the whole window is the drop target, so there is no permanent drop box to look at. -->
+        <Border x:Name="DropOverlay" Grid.Row="0" Grid.RowSpan="2" Visibility="Collapsed" IsHitTestVisible="False" Background="#B3000000">
+            <Border Margin="28" CornerRadius="16" BorderThickness="2" BorderBrush="{StaticResource VxGradient}" Background="#E61A1A20">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <ui:SymbolIcon Symbol="ArrowDownload48" FontSize="48" Foreground="{StaticResource VxAccentTextBrush}" HorizontalAlignment="Center" />
+                    <TextBlock Text="Zum Hinzufügen loslassen" Style="{StaticResource VxTitle}" TextAlignment="Center" Margin="0,16,0,4" Foreground="White" />
+                    <TextBlock Text=".js, .css oder .zip" FontSize="14" Foreground="#C8C8D0" HorizontalAlignment="Center" />
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <!-- Pending changes: one bar for every page, docked to the bottom of the content area. -->
+        <Border x:Name="PendingBar" Grid.Row="1" Visibility="Collapsed" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                Margin="200,0,0,20" Padding="16,12" CornerRadius="10" Width="520"
+                Background="{DynamicResource SolidBackgroundFillColorQuarternaryBrush}"
+                BorderBrush="{StaticResource VxAccentTextBrush}" BorderThickness="1">
+            <Grid>
+                <TextBlock Text="Änderungen bereit – Spotify startet dafür kurz neu." VerticalAlignment="Center" Margin="0,0,130,0"
+                           TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                <ui:Button x:Name="ApplyButton" HorizontalAlignment="Right" Appearance="Primary" Content="Anwenden" Click="Apply_Click" />
+            </Grid>
+        </Border>
+
+        <!-- Detail window: preview, full description and the one action for the item. -->
+        <Border x:Name="DetailOverlay" Grid.Row="0" Grid.RowSpan="2" Visibility="Collapsed" Background="#B3000000"
+                MouseLeftButtonDown="DetailBackdrop_Click">
+            <Border x:Name="DetailCard" Width="700" MaxHeight="640" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    CornerRadius="16" BorderThickness="1" ClipToBounds="True" MouseLeftButtonDown="DetailCard_Click"
+                    Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Height="300" Background="#161620">
+                        <Border Background="{StaticResource VxGradient}" Opacity="0.28" />
+                        <ui:SymbolIcon x:Name="DetailPlaceholder" Symbol="PuzzlePiece24" FontSize="64" Opacity="0.55" Foreground="White" />
+                        <Image x:Name="DetailImage" Stretch="UniformToFill" />
+                        <ui:Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="12" Width="36" Height="36" Padding="0"
+                                   Appearance="Secondary" Icon="{ui:SymbolIcon Dismiss24}" Click="DetailClose_Click"
+                                   AutomationProperties.Name="Schließen" />
+                    </Grid>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="28,20,28,16">
+                            <TextBlock x:Name="DetailTitle" Style="{StaticResource VxTitle}" FontSize="24" />
+                            <TextBlock x:Name="DetailSub" Style="{StaticResource VxCaption}" Margin="0,4,0,0" />
+                            <TextBlock x:Name="DetailDesc" Style="{StaticResource VxBody}" Margin="0,14,0,0" LineHeight="21" />
+                            <TextBlock x:Name="DetailPerf" FontSize="13" Foreground="#FFB454" TextWrapping="Wrap" Margin="0,14,0,0" />
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <Border Grid.Row="2" Padding="20,14" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}">
+                        <DockPanel LastChildFill="False">
+                            <ui:Button x:Name="DetailLink" DockPanel.Dock="Left" Icon="{ui:SymbolIcon Open24}" Click="DetailLink_Click" />
+                            <ui:Button x:Name="DetailPrimary" DockPanel.Dock="Right" Appearance="Primary" MinWidth="150" HorizontalContentAlignment="Center" Click="DetailPrimary_Click" />
+                            <ui:Button DockPanel.Dock="Right" Content="Schließen" Margin="0,0,8,0" Click="DetailClose_Click" />
+                        </DockPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </Border>
+
+        <!-- Feedback lives in the interface, not in dialogs. -->
+        <Border x:Name="ToastHost" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="200,0,0,88"
+                Opacity="0" IsHitTestVisible="False" CornerRadius="10" Padding="16,10"
+                Background="{DynamicResource SolidBackgroundFillColorQuarternaryBrush}"
+                BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1">
+            <StackPanel Orientation="Horizontal">
+                <ui:SymbolIcon x:Name="ToastIcon" Symbol="CheckmarkCircle24" Margin="0,0,10,0" VerticalAlignment="Center" />
+                <TextBlock x:Name="ToastText" FontSize="14" VerticalAlignment="Center" MaxWidth="520" TextWrapping="Wrap"
+                           Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</ui:FluentWindow>
