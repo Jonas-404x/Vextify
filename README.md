@@ -4,6 +4,8 @@ Themes und Mods für Spotify am PC, ohne dass du irgendwas in PowerShell tippen 
 
 Ich hab mich ständig mit Spicetify rumgeärgert: Installation schmiert ab, nach jedem Neustart muss ein Befehl her, nach jedem Spotify-Update ist alles weg. Vextify macht das alles selbst. Du klickst einmal auf "Mods aktivieren" und danach bleibt es einfach drin.
 
+**[Vextify.exe herunterladen](https://github.com/Jonas-404x/Vextify/releases/download/v0.1.0/Vextify.exe)** (Windows, 146 MB, du musst sonst nichts installieren)
+
 ## Was es kann
 
 - **Ein Klick statt Konsole.** Vextify lädt die Mod-Engine, sichert Spotify und wendet alles an.
@@ -17,7 +19,7 @@ Ich hab mich ständig mit Spicetify rumgeärgert: Installation schmiert ab, nach
 
 1. Spotify von [spotify.com](https://www.spotify.com/download/windows/) installieren. **Nicht** die Microsoft-Store-Version, die lässt sich nicht modifizieren.
 2. Spotify einmal öffnen, anmelden, wieder schließen.
-3. `Vextify.exe` aus den [Releases](../../releases) laden und starten.
+3. [Vextify.exe](https://github.com/Jonas-404x/Vextify/releases/download/v0.1.0/Vextify.exe) laden und starten.
 4. Auf "Mods aktivieren" klicken.
 
 Windows meldet beim ersten Start evtl. SmartScreen, weil die App nicht signiert ist. "Weitere Informationen" und dann "Trotzdem ausführen".
