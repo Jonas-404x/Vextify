@@ -47,6 +47,5 @@ Mit der Datei-Komprimierung (`EnableCompressionInSingleFile`) wird die `.exe` kl
 ## Gut zu wissen
 
 - Vextify verändert Dateien von Spotify. Das kann gegen die Nutzungsbedingungen von Spotify verstoßen. Nutzung auf eigene Verantwortung.
-- Einen Werbeblocker gibt es bewusst nicht.
 - Die Mod-Engine ist [Spicetify](https://github.com/spicetify/cli) (LGPL-2.1). Vextify lädt sie beim ersten Aktivieren selbst herunter und liefert sie nicht mit. Der Katalog in Entdecken kommt aus der Spicetify-Community.
 - Gebaut mit WPF und [WPF-UI](https://github.com/lepoco/wpfui).
